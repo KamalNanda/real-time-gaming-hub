@@ -48,6 +48,7 @@ export default class Login extends Component{
                                 <th style={{border:'1px solid grey'}}>Code</th>
                                 <th style={{border:'1px solid grey'}}>Type</th>
                                 <th style={{border:'1px solid grey'}}>Status</th>
+                                <th style={{border:'1px solid grey'}}>Chat Room</th>
                             </tr>
                             {
                                 this.state.rooms?.map((room, index) => {
@@ -58,12 +59,23 @@ export default class Login extends Component{
                                                 <td style={{border:'1px solid grey'}}>{room.roomcode}</td>
                                                 <td style={{border:'1px solid grey'}}>{room.gameType ==="piggame" ? "PIG GAME" :"STONE PAPER SCISSORS"}</td>
                                                 <td style={{border:'1px solid grey'}}>{status}</td>
+                                                <td style={{border:'1px solid grey'}}>
+                                                    <div style={{marginTop:'20px'}} className="login-btn" onClick={() => {
+                                                        this.props.history.history.push({
+                                                            pathname : '/chat', 
+                                                            state:{ room : room}
+                                                        })}}>CHAT</div>
+                                                </td>
                                             </tr>
                                 })
                             }
                         </table>
                     </div>
                 </div>
+                <h2 className="my-profile">
+                    {/* <img width="25px" height="25px" style={{marginRight:'10px'}} src="https://ik.imagekit.io/hbj42mvqwv/1608022759434_Karan_Singh_avatar_atJQ233GU.png"/> */}
+                    <span onClick={() => this.props.history.history.push('/menu')}>GO TO HOME</span>
+                </h2>
             </div>
         )
     }

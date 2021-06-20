@@ -74,6 +74,12 @@ class ChatBox extends Component{
             this.setState({newMessage: ''})
         }
     }
+    async componentWillUnmount() { 
+        socket.emit('disconnectRoom' )
+      }
+      async componentDidUnmount() { 
+          socket.emit('disconnectRoom' )
+        }
     render(){
         const userData = JSON.parse(localStorage.getItem('iplUser'))
         return(

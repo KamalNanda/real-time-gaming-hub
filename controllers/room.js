@@ -5,7 +5,8 @@ const User = require('../model/user')
 const createRoom = async (req , res , next) => {
     console.log(req.body)
     const {roomname, gameType, createdBy, rounds} = req.body
-    let roomcode = generateRandom(8)
+    let roomcodeGen = generateRandom(4)
+    let roomcode = roomname.slice(0,4) + roomcodeGen
     let isRoomCodeExist, creator, users
     try{
         isRoomCodeExist = Room.findOne({roomcode})
@@ -14,7 +15,10 @@ const createRoom = async (req , res , next) => {
         console.log(err)
         return next(err)
     }
-    if(isRoomCodeExist) roomCode = generateRandom(9)
+    if(isRoomCodeExist) {
+        roomcodeGen = generateRandom(5)
+        roomcode = roomname.slice(0,4) + roomcodeGen
+    }
     const newRoom = new Room({
         roomname,
         roomcode,
@@ -42,10 +46,10 @@ const fetchRoomById = async (req, res, next) => {
         room = await Room.findById(roomId)
     } catch (error){ 
         next (error)
-        return res.status(500).createRoomjson({message: "Fetching Room Failed! Try Later "})
+        return res.status(500).json({message: "Fetching Room Failed! Try Later "})
     }
-    users = await fetchUsers(room.playerList)
-    res.status(200).json({room : {...room, users}})
+    // users = await fetchUsers(room.playerList)
+    res.status(200).json({room : {...room}})
 }
 
 const fetchRoomByRoomCode = async (req, res, next) => {
@@ -63,23 +67,23 @@ const fetchRoomByRoomCode = async (req, res, next) => {
 }
 
 const joinRoom = async (req, res, next) => {
-    const {roomCode, userId} = req.body 
-    let room, user
+    const {roomcode, userId} = req.body 
+    let room, user 
     try{
-        room = await Room.findOne({roomCode})
+        room = await Room.findOne({roomcode})
         user = await User.findById(userId)
     } catch (error) {
         console.log(err)
         return next(err) 
-    }
+    } 
     if(!room) return res.status(404).json({isJoined: false, message: "Room not found with the given room code"})
-    if(room.playerList.length == 2) return res.status(400).json({isJoined: false, message: "Sorry, You Can't Join! Room is Full!"})
     users = await fetchUsers(room.playerList)
-    if(room.playerList.includes(userId)) return res.status(200).json({room : {...room, users}})
+    if(room.playerList.includes(userId)) return res.status(200).json({room : {...room, users}}) 
+    if(room.playerList.length == 2) return res.status(400).json({isJoined: false, message: "Sorry, You Can't Join! Room is Full!"})
     room.playerList = [...room.playerList , userId]
     user.roomsList = [...user.roomsList, room._id ]
     try {
-        await newRoom.save()
+        await room.save()
         await user.save()
     } catch(err){
         console.log(err)
@@ -92,7 +96,7 @@ const fetchRoomByUserId = async (req, res, next) => {
     const {userId} = req.params
     let rooms, user 
     try{
-        user = await user.findById(userId)
+        user = await User.findById(userId)
     } catch (error){ 
         next (error)
         return res.status(500).createRoomjson({message: "Fetching Room Failed! Try Later "})

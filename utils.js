@@ -1,8 +1,8 @@
 const User = require('./model/user')
 const Room = require('./model/room')
 const Player = require('./model/player')
-
-async function generateRandom (length){
+const users = []
+function generateRandom (length){
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
@@ -32,7 +32,7 @@ async function fetchRooms(rooms){
     return Rooms
 }
 
-async function createPlayer(userId, roomId){
+async function createPlayer(roomId, userId){
     let userObj, playerObj
     try{
         userObj = await User.findById(userId)
@@ -59,11 +59,38 @@ async function fetchPlayers(roomId){
     Players = await Player.find({roomId})
     return Players
 }
+function userLeave(id) {
+    const index = users.findIndex(user => user.id === id);
+  
+    if (index == -1) {
+      return users.splice(index, 1)[0];
+    }
+  }
+  
+  // Get room users
+function getRoomUsers(room) {
+    return users.filter(user => user.room === room);
+}
+function userJoin(id, username, room, userId) {
+    const user = { id, username, room, userId };
+
+    users.push(user);
+
+    return user;
+}
+// Get current user
+function getCurrentUser(id) {
+    return users.find(user => user.id === id);
+}
 
 module.exports = { 
     generateRandom,
     fetchUsers,
     fetchRooms,
     createPlayer,
-    fetchPlayers
+    fetchPlayers,
+    userLeave,
+    getRoomUsers,
+    userJoin,
+    getCurrentUser
 };

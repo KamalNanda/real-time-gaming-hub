@@ -51,7 +51,19 @@ const getUsers = async (req, res, next) => {
     }
     res.status(200).json({users})
 }
+const getUserById = async (req, res, next) => {
+    let {userId} = req.params
+    let user
+    try{
+        user = await User.findById(userId)
+    } catch (error){ 
+        next (error)
+        return res.status(500).createRoomjson({message: "Fetching Users List Failed! Try Later "})
+    }
+    res.status(200).json({user})
+}
 
 exports.login = login
 exports.signUp = signUp
 exports.getUsers = getUsers
+exports.getUserById = getUserById

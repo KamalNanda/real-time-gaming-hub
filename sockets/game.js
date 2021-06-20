@@ -1,10 +1,13 @@
 const Room = require('../model/room')  
+const User = require('../model/user')
+const Player = require('../model/player')
 const {createPlayer,fetchPlayers} = require('../utils')
 
 const gameSocket = (io) => {
-    io.of("/game").on("connection", (socket) => {  
+    io.of("/").on("connection", (socket) => {   
         //User Joining Room
-        socket.on("join-room", async ({ roomId, userId }) => {
+        socket.on("join-room", async ({ roomId, userId }) => { 
+            console.log(roomId, userId)
             socket.join(roomId);
             const  roomObj = await Room.findById(roomId) 
             if(roomObj.status == 'ENDED'){
@@ -13,17 +16,17 @@ const gameSocket = (io) => {
             else{
             var playerObj = await createPlayer(roomId, userId);  
             socket.emit("playerJoined",{ playerObj}); 
-            socket.broadcast.to(roomId).emit('playerJoined', playerObj)
+            socket.broadcast.to(roomId).emit('playerJoined', {playerObj})
             }
         }); 
         //User Joined
 
         //Asking to start
             socket.on("isReady", async ({roomId}) => {
-                socket.broadcast.to(roomId).emit('isReady')
+                socket.to(roomId).emit('isReady')
             })
             socket.on("ready", async ({roomId}) => {
-                socket.broadcast.to(roomId).emit('ready')
+                socket.to(roomId).emit('ready')
             })
         //Asked to start
 
@@ -39,8 +42,9 @@ const gameSocket = (io) => {
         //Game Started
 
         //Actions
-            socket.on('action', async ({roomId,action, playerId}) => {
-                socket.broadcast.to(roomId).emit('actiontaken', {data: action})
+            socket.on('action', async ({roomId,action, playerId}) => {  
+                socket.broadcast.to(roomId).emit('actiontaken', {data : {action,playerId}})
+                socket.emit('actiontaken', {data: {action, playerId}})
             }) 
 
             socket.on('roundOver', async ({roomId, playerId}) => {
@@ -59,7 +63,7 @@ const gameSocket = (io) => {
                     winner.isWon = true
                     await winner.save()
                     await roomObj.save()
-                    socket.emit('gameOver', {data: roomObj}) 
+                    socket.emit('gameOver', {data: {roomObj, winner}}) 
                     socket.broadcast.to(roomId).emit('gameOver', {data : {roomObj, winner}})
                 } else { 
                     await roomObj.save()
@@ -68,10 +72,19 @@ const gameSocket = (io) => {
         //Action Taken
 
         //Game Over
-            socket.on('gameOver', async ({roomId}) => {
+            socket.on('gameOver', async ({roomId, winnerId}) => {
                 roomObj = await Room.findById(roomId)
+                userObj = await User.findById(winnerId)
+                userObj.totalScore = userObj.totalScore ? userObj.totalScore + 100 : 100
+                userObj.rank = userObj.rank + 1
                 roomObj.status = 'ENDED'
-                await roomObj.save()
+                roomObj.winner = winnerId
+                try{
+                    await roomObj.save()
+                    await userObj.save()
+                } catch(err){
+                    console.log(err)
+                } 
                 socket.broadcast.to(roomId).emit('gameOver', {data : roomObj})
                 socket.emit('gameOver', {data: roomObj}) 
             })

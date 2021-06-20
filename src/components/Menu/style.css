@@ -1,0 +1,23 @@
+.room-btn{
+    width: 200px;
+    height: 200px;
+    background: #EB4D4D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    cursor: pointer;
+} 
+.my-profile{
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    cursor: pointer;
+    top:20px;
+    color: white;
+    right: 40px;
+}

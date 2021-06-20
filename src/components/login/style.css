@@ -1,0 +1,31 @@
+.form-group{
+    display: flex;
+    flex-direction: column;
+}
+.login-container{
+    margin: auto;
+    width: 60%;
+}
+.login-form{
+    margin: auto;
+} 
+label{
+    font-size: 20px;
+} 
+.login-container input{
+    width: 100% !important;
+}
+input, select{
+    margin-top: 10px;
+    width: 100%;
+    background: none;
+    border: 1px solid grey;
+    padding: 10px;
+}
+.login-btn{
+    background: #EB4D4D;
+    color: white;
+    width: fit-content;
+    padding: 10px; 
+    cursor: pointer;
+}

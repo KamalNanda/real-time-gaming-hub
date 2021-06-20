@@ -1,0 +1,154 @@
+ 
+@font-face {
+    font-family: 'billabongregular';
+    src: url("https://cdn.rawgit.com/milktronics/beaglegr.am/master/public/fonts/billabong-webfont.eot");
+    src: url("https://cdn.rawgit.com/milktronics/beaglegr.am/master/public/fonts/billabong-webfont.eot?#iefix") format('embedded-opentype'), url("https://cdn.rawgit.com/milktronics/beaglegr.am/master/public/fonts/billabong-webfont.woff") format('woff'), url("https://cdn.rawgit.com/milktronics/beaglegr.am/master/public/fonts/billabong-webfont.ttf") format('truetype'), url("https://cdn.rawgit.com/milktronics/beaglegr.am/master/public/fonts/billabong-webfont.svg#billabongregular") format('svg');
+    font-weight: normal;
+    font-style: normal;
+   }
+   h1 {
+    font-family: billabong, 'billabongregular';
+    text-align: center;
+    font-weight: 100;
+    font-size:4rem;
+    margin: 2rem 0;
+    color: white;
+    text-decoration: none;
+    padding-top: 10px;
+   }
+#start-btn{
+    left: 43%;
+    top: 22%;  
+}
+.btns{
+    position: absolute;
+    background-color: rgb(243, 214, 209);
+}
+.btns:hover{
+    cursor: pointer;
+}
+#WINS{
+    margin-left: 47%;
+    bottom:17%;
+}
+#finalResult{
+    left: 43%;
+    top:45%
+}
+header{
+    background-color: rgb(248, 112, 88);
+    margin: -2rem;
+}   
+footer{
+	background-color: rgb(248, 112, 88);
+	color: white;
+	padding-left: 40px
+}
+.game-container-main{
+    display: flex;
+    width: 70%;
+    height: 600px;
+    margin-left: 15%;
+    margin-top: 4%;
+    margin-bottom: 4%;
+}
+.game-container{
+    width: 50%;
+    background-color: rgb(228, 228, 228) ;
+    text-align: center;
+}
+#game-container-right{
+    background-color: white;
+}
+#game-container-left{
+    background-color: rgb(228, 228, 228) ;
+}
+.hand-container{
+    width: 200px;
+    height: 200px;
+    background-color: greenyellow;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+    border: 1px solid black;
+}
+.hand-container img{
+	width:100%;
+} 
+.hand-select-current{
+    min-width: 40px;
+    min-height: 60px; 
+
+}
+.hand-select img, .hand-select-current img{
+    width: 100px;
+    height: 100px; 
+}
+.hands{
+    position: absolute;
+    bottom: 50px; 
+    width: 40%;
+    margin: auto 30%; 
+}
+.hand-select-container{
+    display: flex;
+    justify-content: space-between;   
+}
+.player-score{
+    margin-bottom: 20px ;
+}
+.hand-select:hover{
+    transform: translateY(-20px);
+}
+@media (max-width: 768px){
+	header h1{
+		font-size: 2rem;
+	}
+	body{
+		height: 120vh
+	}
+	.game-container-main{
+		width:80%;
+		flex-direction: column;
+		margin: auto;
+		margin-bottom: 80px;
+	}
+	.game-container{
+		width: 100%;
+		margin: 30px auto 40px auto;
+	}
+	.game-container h3{
+		margin:0 !important
+	}
+	#game-container-left{
+		height: 200px;
+		display: inline-table
+	}
+	.hand-container{
+		width: 100px;
+		height:100px;
+		margin-top: 20px;
+	}
+	.hand-select-container{
+		margin-top: 20px
+	}
+	#start-btn {
+		left: 25%;
+		top: 77% !important;
+	}
+	#WINS{
+		bottom:51% !important;
+		margin-left:40%;
+	}
+	.btns{
+		height: 55px
+	}
+}
+
+
+
+
+
+
+
+

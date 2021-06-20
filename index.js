@@ -21,10 +21,10 @@ app.use((req,res,next)=>{
     next(); 
 })
 app.use(bodyParser.json())
-
+let port = process.env.PORT || 3000
 app.use('/' ,routes)
 mongoose.connect('mongodb+srv://kamal:kamal@cluster0.uftn9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority' , {useNewUrlParser : true , useUnifiedTopology: true })
 .then(()=> {
-server.listen(2000, ()=>{console.log(`A Node.Js API is linstening on port 2000`)})   
+server.listen(port, ()=>{console.log(`A Node.Js API is linstening on port 2000`)})   
 })
 .catch(err => console.log(err))

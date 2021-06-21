@@ -63,7 +63,7 @@ export default class Login extends Component{
                             </div>
                             <center>
                                 <div className="login-btn" onClick={this.onFormSubmit}>JOIN US</div>
-                                <p style={{fontSize:'1.2rem', marginTop:'10px'}}>Already Registered? <a href="/login">Login Now</a></p>
+                                <p style={{fontSize:'1.2rem', marginTop:'10px'}}>Already Registered? <a href="/">Login Now</a></p>
                             </center>
                         </form>
                     </div>

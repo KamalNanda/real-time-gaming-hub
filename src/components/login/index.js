@@ -19,7 +19,7 @@ export default class Login extends Component{
     onFormSubmit = (e) => {
         e.preventDefault()
         axios.post(`${API_ROOT}/auth/login`, {
-            username: this.state.username,
+            email: this.state.username,
             password: this.state.password
         }).then(res => {
             console.log(res)
@@ -55,8 +55,8 @@ export default class Login extends Component{
                     <h2 style={{textAlign:'center'}}>LOGIN</h2>
                         <form className="login-form">
                             <div className="form-group">
-                                <label>Username</label>
-                                <input onChange={this.onInputChange} value={this.state.username} placeholder="Enter your Username" name="username" type="text" />
+                                <label>Email</label>
+                                <input onChange={this.onInputChange} value={this.state.username} placeholder="Enter your Email" name="username" type="email" />
                             </div>
                             <div className="form-group">
                                 <label>Password</label>
